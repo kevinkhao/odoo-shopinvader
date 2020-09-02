@@ -105,6 +105,6 @@ class ShopinvaderNotification(models.Model):
                 return {"domain": {"model_id": []}}
 
     @job(default_channel="root.shopinvader.notification")
-    def send(self, record_id):
+    def send(self, record_id, **kwargs):
         self.ensure_one()
-        return self.template_id.send_mail(record_id)
+        return self.template_id.send_mail(record_id, email_values=kwargs)

@@ -331,7 +331,7 @@ class ShopinvaderBackend(models.Model):
     def bind_all_category(self):
         self._bind_all_content("product.category", "shopinvader.category", [])
 
-    def _send_notification(self, notification, record):
+    def _send_notification(self, notification, record, **kwargs):
         self.ensure_one()
         record.ensure_one()
         notifs = self.env["shopinvader.notification"].search(
@@ -346,7 +346,7 @@ class ShopinvaderBackend(models.Model):
             record.id,
         )
         for notif in notifs:
-            notif.with_delay(description=description).send(record.id)
+            notif.with_delay(description=description).send(record.id, kwargs)
         return True
 
     def _extract_configuration(self):
